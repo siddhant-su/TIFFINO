@@ -1,0 +1,175 @@
+version: "3.9"
+
+services:
+
+  # ==================================================
+  #  MySQL Database
+  # ==================================================
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Shubham@1011
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  # ==================================================
+  #  Eureka Server (Service Registry)
+  # ==================================================
+  service-registry:
+    build: ./Backend/ServiceRegistry
+    container_name: service-registry
+    ports:
+      - "8761:8761"
+    depends_on:
+      - mysql
+    environment:
+      EUREKA_CLIENT_REGISTER_WITH_EUREKA: "false"
+      EUREKA_CLIENT_FETCH_REGISTRY: "false"
+    networks:
+      - tiffino-net
+
+  # ==================================================
+  #  User Service
+  # ==================================================
+  user-service:
+    build: ./Backend/Tiffino-User
+    container_name: user-service
+    depends_on:
+      - mysql
+      - service-registry
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tiffino_user_login
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Shubham@1011
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka/
+    ports:
+      - "8081:8081"
+    networks:
+      - tiffino-net
+
+  # ==================================================
+  #  Admin Orders Service
+  # ==================================================
+  admin-orders:
+    build: ./Backend/Tiffino_Admin_order_delivery
+    container_name: admin-orders
+    depends_on:
+      - mysql
+      - service-registry
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/admin_user_order
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Shubham@1011
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka/
+    ports:
+      - "9083:9083"
+    networks:
+      - tiffino-net
+
+  # ==================================================
+  #  Cart Service
+  # ==================================================
+  cart-service:
+    build: ./Backend/cart_application
+    container_name: cart-service
+    depends_on:
+      - mysql
+      - service-registry
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tiffino_user_cart
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Shubham@1011
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka/
+    ports:
+      - "8083:8083"
+    networks:
+      - tiffino-net
+
+  # ==================================================
+  #  Admin Subscription Service
+  # ==================================================
+  admin-subscription:
+    build: ./Backend/tiffino_admin_subscription
+    container_name: admin-subscription
+    depends_on:
+      - mysql
+      - service-registry
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tiffino_admin_subscription
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Shubham@1011
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka/
+    ports:
+      - "9084:9084"
+    networks:
+      - tiffino-net
+
+  # ==================================================
+  #  User Subscription Service
+  # ==================================================
+  user-subscription:
+    build: ./Backend/Tiffino_user_subscription
+    container_name: user-subscription
+    depends_on:
+      - mysql
+      - service-registry
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tiffino_user_subscription
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Shubham@1011
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka/
+    ports:
+      - "8084:8084"
+    networks:
+      - tiffino-net
+
+  # ==================================================
+  #  Admin Log Service
+  # ==================================================
+  admin-log:
+    build: ./Backend/admin-log
+    container_name: admin-log
+    depends_on:
+      - mysql
+      - service-registry
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/superadmin_log_admin_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Shubham@1011
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka/
+    ports:
+      - "9081:9081"
+    networks:
+      - tiffino-net
+
+  # ==================================================
+  #  Admin Reports Service
+  # ==================================================
+  admin-reports:
+    build: ./Backend/Admin-Reports
+    container_name: admin-reports
+    depends_on:
+      - mysql
+      - service-registry
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tiffino_admin_report
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Shubham@1011
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka/
+    ports:
+      - "9086:9086"
+    networks:
+      - tiffino-net
+
+# ==================================================
+# Networks & Volumes
+# ==================================================
+networks:
+  tiffino-net:
+
+volumes:
+  mysql_data:
