@@ -1,4 +1,4 @@
-package com.example.orderservice.config;
+package com.tiffino.Tiffino_user_subscription.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.cors.CorsConfiguration;
