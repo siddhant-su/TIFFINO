@@ -71,7 +71,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/reviews")
+@RequestMapping("/api/reviews")
 public class ReviewController {
 
     @Autowired
