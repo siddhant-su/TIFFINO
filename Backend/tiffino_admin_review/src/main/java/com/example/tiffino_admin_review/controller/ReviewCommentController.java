@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/rev")
+@RequestMapping("/api/rev")
 public class ReviewCommentController {
 
     @Autowired
