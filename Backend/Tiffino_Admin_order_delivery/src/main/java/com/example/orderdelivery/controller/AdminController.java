@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/ordr/admin/orders")
+@RequestMapping("/api/ordr/admin/orders")
 public class AdminController {
 
     private final OrderService orderService;

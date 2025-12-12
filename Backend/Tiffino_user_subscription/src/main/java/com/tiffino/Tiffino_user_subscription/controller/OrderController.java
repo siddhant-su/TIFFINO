@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/subscri/orders")
+@RequestMapping("/api/subscri/orders")
 public class OrderController {
 
     private final OrderService orderService;

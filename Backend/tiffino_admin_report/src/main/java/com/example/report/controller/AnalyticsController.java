@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/analytics")
+@RequestMapping("/api/analytics")
 public class AnalyticsController {
 
     private final AnalyticsService analyticsService;

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/user/meals")
+@RequestMapping("/api/user/meals")
 public class MealController {
 
     private final MealService mealService;

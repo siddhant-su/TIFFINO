@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/subscri/plans")
+@RequestMapping("/api/subscri/plans")
 public class PlanController {
 
     @Autowired
